@@ -8,3 +8,7 @@ services:
       - "MYSQL_USER=miftah"
     ports:
       - "3306:3306"
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8081:8080"
