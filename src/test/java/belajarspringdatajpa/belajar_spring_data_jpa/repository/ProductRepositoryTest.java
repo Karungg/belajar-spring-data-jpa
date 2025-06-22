@@ -2,6 +2,7 @@ package belajarspringdatajpa.belajar_spring_data_jpa.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -105,5 +106,14 @@ public class ProductRepositoryTest {
 
         count = productRepository.countByCategory_Name("GADGET MURAH");
         assertEquals(2L, count);
+    }
+
+    @Test
+    void testExistsByName() {
+        boolean product1 = productRepository.existsByName("ROG Phone 8");
+        assertTrue(product1);
+
+        boolean product2 = productRepository.existsByName("Xiaomi 15 Ultra");
+        assertTrue(product2);
     }
 }
