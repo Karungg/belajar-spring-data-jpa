@@ -127,4 +127,12 @@ public class ProductRepositoryTest {
         delete = productRepository.deleteByName("Samsung Galaxy S25 Ultra");
         assertEquals(0, delete);
     }
+
+    @Test
+    void testSearchProductUsingName() {
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<Product> products = productRepository.searchProductUsingName("ROG Phone 8", pageable);
+        assertEquals(1, products.getTotalElements());
+        assertEquals("ROG Phone 8", products.getContent().get(0).getName());
+    }
 }
