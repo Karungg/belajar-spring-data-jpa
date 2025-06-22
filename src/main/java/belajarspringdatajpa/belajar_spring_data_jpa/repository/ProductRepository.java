@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import belajarspringdatajpa.belajar_spring_data_jpa.entity.Product;
 
@@ -22,4 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Long countByCategory_Name(String name);
 
     boolean existsByName(String name);
+
+    @Transactional
+    int deleteByName(String name);
 }

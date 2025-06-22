@@ -116,4 +116,15 @@ public class ProductRepositoryTest {
         boolean product2 = productRepository.existsByName("Xiaomi 15 Ultra");
         assertTrue(product2);
     }
+
+    @Test
+    void testDeleteByName() {
+        // Exists product
+        int delete = productRepository.deleteByName("ROG Phone 8");
+        assertEquals(1, delete);
+
+        // Not exists product
+        delete = productRepository.deleteByName("Samsung Galaxy S25 Ultra");
+        assertEquals(0, delete);
+    }
 }
