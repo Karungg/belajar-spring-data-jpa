@@ -33,6 +33,15 @@ public class ProductRepositoryTest {
         categoryRepository.save(category);
 
         productRepository.deleteAll();
+
+        Category gadgetCategory = getCategory();
+        assertNotNull(gadgetCategory);
+        assertEquals("GADGET MURAH", gadgetCategory.getName());
+
+        {
+            storeProduct("ROG Phone 8", 2500000L, gadgetCategory);
+            storeProduct("Xiaomi 15 Ultra", 3000000L, gadgetCategory);
+        }
     }
 
     private Category getCategory() {
@@ -49,33 +58,15 @@ public class ProductRepositoryTest {
 
     @Test
     void findAllByCategory_name() {
-        Category gadgetCategory = getCategory();
-        assertNotNull(gadgetCategory);
-        assertEquals("GADGET MURAH", gadgetCategory.getName());
-
-        {
-            storeProduct("Samsung Galaxy S25 Ultra", 2500000L, gadgetCategory);
-            storeProduct("Iphone 16 Pro Max", 3000000L, gadgetCategory);
-        }
-
         List<Product> products = productRepository.findAllByCategory_Name("GADGET MURAH");
         assertNotNull(products);
         assertEquals(2, products.size());
-        assertEquals("Samsung Galaxy S25 Ultra", products.get(0).getName());
-        assertEquals("Iphone 16 Pro Max", products.get(1).getName());
+        assertEquals("ROG Phone 8", products.get(0).getName());
+        assertEquals("Xiaomi 15 Ultra", products.get(1).getName());
     }
 
     @Test
     void findAllByCategory_name_sort() {
-        Category gadgetCategory = getCategory();
-        assertNotNull(gadgetCategory);
-        assertEquals("GADGET MURAH", gadgetCategory.getName());
-
-        {
-            storeProduct("ROG Phone 8", 2500000L, gadgetCategory);
-            storeProduct("Xiaomi 15 Ultra", 3000000L, gadgetCategory);
-        }
-
         Sort sort = Sort.by(Sort.Order.desc("id"));
         List<Product> products = productRepository.findAllByCategory_Name("GADGET MURAH", sort);
         assertNotNull(products);
@@ -86,15 +77,6 @@ public class ProductRepositoryTest {
 
     @Test
     void testPageResult() {
-        Category gadgetCategory = getCategory();
-        assertNotNull(gadgetCategory);
-        assertEquals("GADGET MURAH", gadgetCategory.getName());
-
-        {
-            storeProduct("ROG Phone 8", 2500000L, gadgetCategory);
-            storeProduct("Xiaomi 15 Ultra", 3000000L, gadgetCategory);
-        }
-
         // Page 0
         Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Order.asc("id")));
         Page<Product> products = productRepository.findAllByCategory_Name("GADGET MURAH", pageable);
@@ -114,5 +96,14 @@ public class ProductRepositoryTest {
         assertEquals(2, products.getTotalElements());
         assertEquals(2, products.getTotalPages());
         assertEquals("Xiaomi 15 Ultra", products.getContent().get(0).getName());
+    }
+
+    @Test
+    void testCount() {
+        Long count = productRepository.count();
+        assertEquals(2L, count);
+
+        count = productRepository.countByCategory_Name("GADGET MURAH");
+        assertEquals(2L, count);
     }
 }
