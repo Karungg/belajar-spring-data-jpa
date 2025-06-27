@@ -205,7 +205,7 @@ public class ProductRepositoryTest {
                 assertNotNull(products);
                 products.get(0).setName("Samsung Galaxy S25 Ultra");
 
-                Thread.sleep(5_000L);
+                Thread.sleep(2_000L);
                 productRepository.save(products.get(0));
             } catch (InterruptedException exception) {
                 throw new RuntimeException(exception);
