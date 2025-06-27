@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -45,5 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     int deleteProductUsingName(@Param("name") String name);
 
     Stream<Product> streamAllByCategory(Category category);
+
+    Slice<Product> findAllByCategory(Category category, Pageable pageable);
 
 }
