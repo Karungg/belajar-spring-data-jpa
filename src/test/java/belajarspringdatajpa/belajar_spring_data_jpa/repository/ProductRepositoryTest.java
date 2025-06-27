@@ -135,4 +135,24 @@ public class ProductRepositoryTest {
         assertEquals(1, products.getTotalElements());
         assertEquals("ROG Phone 8", products.getContent().get(0).getName());
     }
+
+    @Test
+    void testSearchProduct() {
+        List<Product> products = productRepository.searchProduct("ROG Phone");
+        assertEquals(1, products.size());
+        assertEquals("ROG Phone 8", products.get(0).getName());
+    }
+
+    @Test
+    void testSearchProductWithCategory() {
+        List<Product> products = productRepository.searchProduct("GADGET MURAH");
+        assertEquals(2, products.size());
+        assertEquals("ROG Phone 8", products.get(0).getName());
+    }
+
+    @Test
+    void testSearchProductMaxPrice() {
+        Product product = productRepository.searchProductMaxPrice();
+        assertEquals("Xiaomi 15 Ultra", product.getName());
+    }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "products")
-@NamedQuery(name = "Product.searchProductUsingName", query = "SELECT p FROM Product p WHERE p.name =:name")
+@NamedQueries({
+        @NamedQuery(name = "Product.searchProductUsingName", query = "SELECT p FROM Product p WHERE p.name =:name")
+})
 public class Product {
 
     @Id
