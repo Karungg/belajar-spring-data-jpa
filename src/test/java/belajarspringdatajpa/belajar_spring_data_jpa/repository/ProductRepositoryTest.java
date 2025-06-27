@@ -195,6 +195,32 @@ public class ProductRepositoryTest {
             products = productRepository.findAllByCategory(category, products.getPageable());
             break;
         }
+    }
 
+    @Test
+    void testLock() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            try {
+                List<Product> products = productRepository.searchProduct("ROG Phone");
+                assertNotNull(products);
+                products.get(0).setName("Samsung Galaxy S25 Ultra");
+
+                Thread.sleep(5_000L);
+                productRepository.save(products.get(0));
+            } catch (InterruptedException exception) {
+                throw new RuntimeException(exception);
+            }
+        });
+    }
+
+    @Test
+    void testLock2() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            List<Product> products = productRepository.searchProduct("ROG Phone");
+            assertNotNull(products);
+            products.get(0).setName("Samsung Galaxy S26 Ultra");
+
+            productRepository.save(products.get(0));
+        });
     }
 }
