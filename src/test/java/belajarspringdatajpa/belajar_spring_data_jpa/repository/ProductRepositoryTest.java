@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.support.TransactionOperations;
 
 import belajarspringdatajpa.belajar_spring_data_jpa.entity.Category;
 import belajarspringdatajpa.belajar_spring_data_jpa.entity.Product;
@@ -23,6 +24,9 @@ public class ProductRepositoryTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private TransactionOperations transactionOperations;
 
     @Autowired
     private ProductRepository productRepository;
@@ -154,5 +158,15 @@ public class ProductRepositoryTest {
     void testSearchProductMaxPrice() {
         Product product = productRepository.searchProductMaxPrice();
         assertEquals("Xiaomi 15 Ultra", product.getName());
+    }
+
+    @Test
+    void testDeleteProductUsingName() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            productRepository.deleteProductUsingName("ROG Phone 8");
+
+            List<Product> products = productRepository.findAll();
+            assertEquals(1, products.size());
+        });
     }
 }
