@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -167,6 +168,18 @@ public class ProductRepositoryTest {
 
             List<Product> products = productRepository.findAll();
             assertEquals(1, products.size());
+        });
+    }
+
+    @Test
+    void testStreamAllByCategory() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            Category category = getCategory();
+
+            Stream<Product> products = productRepository.streamAllByCategory(category);
+            products.forEach(product -> {
+                System.out.println(product.getId() + " " + product.getName());
+            });
         });
     }
 }

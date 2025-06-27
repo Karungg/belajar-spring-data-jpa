@@ -1,6 +1,7 @@
 package belajarspringdatajpa.belajar_spring_data_jpa.repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import belajarspringdatajpa.belajar_spring_data_jpa.entity.Category;
 import belajarspringdatajpa.belajar_spring_data_jpa.entity.Product;
 
 @Repository
@@ -41,5 +43,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query(value = "DELETE FROM products WHERE name = :name", nativeQuery = true)
     int deleteProductUsingName(@Param("name") String name);
+
+    Stream<Product> streamAllByCategory(Category category);
 
 }
